@@ -1,0 +1,68 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/hello', function () {
+    return 'hello world~';
+});
+
+Route::get('/tot', function () {
+    return view('tot');
+});
+
+Route::get('/altibase', function () {
+    return view('altibase');
+});
+
+Route::view('/altibasepdo', 'altibase', ['name' => ' J ']  );
+Route::view('/altibasepdo2', 'altibase', ['name' => 'Jason Park']);
+
+Route::get('/sqlite', function () {
+    return view('pdo');
+});
+
+Route::get('/alti', function () {
+    return view('alti');
+});
+
+Route::get('/mysql', function () {
+    return view('mysql');
+});
+
+Route::redirect('/Mysql', '/mysql', 301);
+
+Route::get('hello/{name}', function($name='Jason') {
+	return "Hello $name";
+});
+
+Route::get ('contact', 'ContactController@create')->name('contact.create');
+Route::post('contact', 'ContactController@store') ->name('contact.store');
+Route::get ('/form', function() {
+	return view('form');
+});
+
+Route::get ('/form2', function() { return view('form2'); });
+Route::get ('/form3', function() { return view('form3'); });
+Route::get ('/form4', function() { return view('form4'); });
+Route::get ('/form5', function() { return view('form5'); });
+Route::get ('/form6', function() { return view('form6'); });
+Route::get ('/form7', function() { return view('form7'); });
+
+Route::post('/foo', function() {
+    print("/foo called ");
+    return "Hello Foo";
+});
+

@@ -1,0 +1,52 @@
+@include ('Tot.header')
+
+<h3>Daily Sum: </h3>
+
+<div>
+
+<?php
+	foreach ($Tot as $row) {
+		print("$row->yymmdd, $row->money <BR>"); 
+	}
+
+	//var_dump($Tot);
+?>
+
+</div>
+
+<br>
+
+<div>
+<canvas id="myChart"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ["0726", "0722", "0822", "0824", "0826", "0827", "0828"],
+        datasets: [{
+            label: "Daily Sum:",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [567340261, 574125414, 578722222, 576433233 , 583566443 , 584241739, 583431089],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+
+</script>
+
+
+
+</div>
+
+
+@include('Tot.tail');

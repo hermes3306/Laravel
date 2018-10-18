@@ -1,0 +1,39 @@
+<html>
+<body>
+
+<a href="/Tot/show">show</a> |
+<a href="/Tot/showall">all</a> |
+<a href="/Tot/insf">ins</a> <BR> 
+
+<table width="500" border="0" cellspacing="1" cellpadding="0"> 
+
+
+{{ Form::open(array('url' => '/Tot/ins', 'method' => 'post')) }}
+
+<input type='text' name='yymmdd' value={{$yymmdd}} /> <br>
+
+<tr> 
+<td><strong>accnt</strong></td> 
+<td><strong>money</strong></td>
+</tr> 
+
+<?php
+foreach($Tot as $row) {
+    echo("<tr>");
+ 		print("<td><input type='text' name='foo[$row->accnt]' value='$row->accnt' readonly /></td>");
+ 		print("<td><input type='text' name='foo[$row->accnt]' value='$row->money' /></td>");
+    echo("</tr>");
+}
+?>
+
+<tr> 
+<td colspan="2" align="center"><input type="submit" name="Submit" value="Submit"></td> 
+</tr> 
+
+{{ Form::close() }}
+
+
+</table>
+
+</body>
+</html>
