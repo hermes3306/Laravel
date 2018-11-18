@@ -46,11 +46,12 @@ div {
 
 <body>
 <table width=100%> <tr> <td align="right">
-<a href="/sm/dash">dash</a> |
+<a href="/sm/dash/1">dash1</a> |
+<a href="/sm/dash/2">dash2</a> |
 <a href="/sm/show">show</a> |
 <a href="/sm/showall2">category</a> |
 <a href="/sm/showall">all</a> |
-<a href="/sm/insf">ins</a> <BR>
+<a href="/sm/dash/3">dash3</a> <BR>
 </td></tr>
 </table>
 

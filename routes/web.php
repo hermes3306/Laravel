@@ -11,9 +11,11 @@
 |
 */
 
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
 
 Route::get('/sqlite', function () {
     return view('sqlite');
@@ -50,11 +52,17 @@ Route::get('sm/showall2', 'SMController@showall2');
 Route::get('sm/insf', 'SMController@insf');
 Route::post('sm/ins', 'SMController@ins');
 
+Route::get('/', 'TotsController@daily');
+Route::get('tots', 'TotsController@daily');
 Route::get('tots/daily', 'TotsController@daily');
 Route::get('tots/today', 'TotsController@today');
 Route::get('tots/detail', 'TotsController@detail');
-Route::get('tots/accnt/{accnt}', ['uses' => 'TotsController@detail'] );
+Route::get('tots/yymmdd/{yymmdd}', ['uses' => 'TotsController@yymmdd'] );
+Route::get('tots/accnt/{accnt}', ['uses' => 'TotsController@accnt'] );
 Route::get('tots/totf', 'TotsController@totf');
+Route::post('tots/ins', 'TotsController@ins');
 Route::get('tots/pub/{yymmdd}', ['uses' => 'TotsController@pub'] );
 Route::get('tots/sync', 'TotsController@sync');
 Route::get('tots/serialize', 'TotsController@serialize');
+Route::get('tots/settar/{name}', ['uses' => 'TotsController@setTargetDB'] );
+Route::get('tots/email',  'TotsController@email' );

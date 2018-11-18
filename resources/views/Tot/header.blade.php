@@ -46,8 +46,16 @@ div {
 
 <body>
 <table width=100%> <tr> <td align="right">
-<a href="/Tot/show">show</a> |
-<a href="/Tot/showall2">category</a> |
+<a href="/Tot/show">total</a> |
+<a href="/Tot/showall2">detail</a> |
+<a href="/Tot/kw/kw">kw</a> |
+<a href="/Tot/kw/wr1">wr1</a> |
+<a href="/Tot/kw/wr2">wr2</a> |
+<a href="/Tot/kw/hd">hd</a> |
+<a href="/Tot/kw/xi">xi</a> |
+<a href="/Tot/kw/ok">ok</a> |
+<a href="/Tot/kw/wo">wo</a> |
+<a href="/Tot/today">today</a> |
 <a href="/Tot/showall">all</a> |
 <a href="/Tot/insf">ins</a> <BR>
 </td></tr>

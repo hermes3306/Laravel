@@ -1,0 +1,13 @@
+Laravel development server started: <http://0.0.0.0:8000>
+[Wed Sep 12 05:04:30 2018] 223.105.4.248:7884 [200]: http://112.35.66.7:10083/index.php
+[Wed Sep 12 15:41:04 2018] 222.112.181.231:59146 [200]: /favicon.ico
+[Thu Sep 13 13:19:23 2018] 222.112.181.231:39314 [200]: /favicon.ico
+[Thu Sep 13 13:19:23 2018] 222.112.181.231:39316 [200]: /favicon.ico
+[Thu Sep 13 13:19:30 2018] 222.112.181.231:39322 [200]: /favicon.ico
+[Thu Sep 13 13:19:36 2018] 222.112.181.231:39326 [200]: /favicon.ico
+[Thu Sep 13 13:19:42 2018] 222.112.181.231:39330 [200]: /favicon.ico
+[Thu Sep 13 13:19:45 2018] 222.112.181.231:39346 [200]: /favicon.ico
+[Thu Sep 13 13:19:47 2018] 222.112.181.231:39354 [200]: /favicon.ico
+[Thu Sep 13 16:57:51 2018] 222.112.181.231:42572 [200]: /favicon.ico
+[Fri Sep 14 04:21:17 2018] 185.143.223.198:654 Invalid request (Malformed HTTP request)
+[Fri Sep 14 17:50:03 2018] 195.43.95.189:60000 Invalid request (Malformed HTTP request)

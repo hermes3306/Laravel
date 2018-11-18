@@ -16,6 +16,21 @@ class TotController extends Controller
         return view('Tot.show', ['Tot' => $Tot]);
     }
 
+    public function kw($accnt)
+    {
+		$sql = "select yymmdd, money from Tot where accnt like '$accnt'";
+      	$Tot = DB::connection('mysql')->select($sql);
+      	return view('Tot.kw', ['accnt'=>$accnt, 'Tot' => $Tot]);
+    }
+
+	public function today() 
+	{
+		$sql = "select yymmdd, accnt, money from Tot where yymmdd like date_format(now(),'%y%m%d')";
+
+        $Tot = DB::connection('mysql')->select($sql);
+		return view('Tot.today', ['Tot' => $Tot]);
+	}
+
 	public function showall() 
 	{
         $Tot = DB::connection('mysql')->select('select yymmdd, accnt, money from Tot order by yymmdd, accnt');

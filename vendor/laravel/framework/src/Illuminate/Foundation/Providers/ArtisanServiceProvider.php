@@ -16,19 +16,18 @@ use Illuminate\Foundation\Console\AppNameCommand;
 use Illuminate\Foundation\Console\JobMakeCommand;
 use Illuminate\Database\Console\Seeds\SeedCommand;
 use Illuminate\Foundation\Console\MailMakeCommand;
+use Illuminate\Foundation\Console\OptimizeCommand;
 use Illuminate\Foundation\Console\RuleMakeCommand;
 use Illuminate\Foundation\Console\TestMakeCommand;
 use Illuminate\Foundation\Console\EventMakeCommand;
 use Illuminate\Foundation\Console\ModelMakeCommand;
 use Illuminate\Foundation\Console\RouteListCommand;
-use Illuminate\Foundation\Console\ViewCacheCommand;
 use Illuminate\Foundation\Console\ViewClearCommand;
 use Illuminate\Session\Console\SessionTableCommand;
 use Illuminate\Foundation\Console\PolicyMakeCommand;
 use Illuminate\Foundation\Console\RouteCacheCommand;
 use Illuminate\Foundation\Console\RouteClearCommand;
 use Illuminate\Console\Scheduling\ScheduleRunCommand;
-use Illuminate\Foundation\Console\ChannelMakeCommand;
 use Illuminate\Foundation\Console\ConfigCacheCommand;
 use Illuminate\Foundation\Console\ConfigClearCommand;
 use Illuminate\Foundation\Console\ConsoleMakeCommand;
@@ -39,7 +38,6 @@ use Illuminate\Foundation\Console\StorageLinkCommand;
 use Illuminate\Routing\Console\ControllerMakeCommand;
 use Illuminate\Routing\Console\MiddlewareMakeCommand;
 use Illuminate\Foundation\Console\ListenerMakeCommand;
-use Illuminate\Foundation\Console\ObserverMakeCommand;
 use Illuminate\Foundation\Console\ProviderMakeCommand;
 use Illuminate\Foundation\Console\ResourceMakeCommand;
 use Illuminate\Foundation\Console\ClearCompiledCommand;
@@ -101,6 +99,7 @@ class ArtisanServiceProvider extends ServiceProvider
         'MigrateReset' => 'command.migrate.reset',
         'MigrateRollback' => 'command.migrate.rollback',
         'MigrateStatus' => 'command.migrate.status',
+        'Optimize' => 'command.optimize',
         'PackageDiscover' => 'command.package.discover',
         'Preset' => 'command.preset',
         'QueueFailed' => 'command.queue.failed',
@@ -118,7 +117,6 @@ class ArtisanServiceProvider extends ServiceProvider
         'ScheduleRun' => ScheduleRunCommand::class,
         'StorageLink' => 'command.storage.link',
         'Up' => 'command.up',
-        'ViewCache' => 'command.view.cache',
         'ViewClear' => 'command.view.clear',
     ];
 
@@ -131,7 +129,6 @@ class ArtisanServiceProvider extends ServiceProvider
         'AppName' => 'command.app.name',
         'AuthMake' => 'command.auth.make',
         'CacheTable' => 'command.cache.table',
-        'ChannelMake' => 'command.channel.make',
         'ConsoleMake' => 'command.console.make',
         'ControllerMake' => 'command.controller.make',
         'EventGenerate' => 'command.event.generate',
@@ -146,7 +143,6 @@ class ArtisanServiceProvider extends ServiceProvider
         'ModelMake' => 'command.model.make',
         'NotificationMake' => 'command.notification.make',
         'NotificationTable' => 'command.notification.table',
-        'ObserverMake' => 'command.observer.make',
         'PolicyMake' => 'command.policy.make',
         'ProviderMake' => 'command.provider.make',
         'QueueFailedTable' => 'command.queue.failed-table',
@@ -207,7 +203,7 @@ class ArtisanServiceProvider extends ServiceProvider
      */
     protected function registerAuthMakeCommand()
     {
-        $this->app->singleton('command.auth.make', function () {
+        $this->app->singleton('command.auth.make', function ($app) {
             return new AuthMakeCommand;
         });
     }
@@ -245,18 +241,6 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.cache.table', function ($app) {
             return new CacheTableCommand($app['files'], $app['composer']);
-        });
-    }
-
-    /**
-     * Register the command.
-     *
-     * @return void
-     */
-    protected function registerChannelMakeCommand()
-    {
-        $this->app->singleton('command.channel.make', function ($app) {
-            return new ChannelMakeCommand($app['files']);
         });
     }
 
@@ -596,22 +580,10 @@ class ArtisanServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerNotificationTableCommand()
+    protected function registerOptimizeCommand()
     {
-        $this->app->singleton('command.notification.table', function ($app) {
-            return new NotificationTableCommand($app['files'], $app['composer']);
-        });
-    }
-
-    /**
-     * Register the command.
-     *
-     * @return void
-     */
-    protected function registerObserverMakeCommand()
-    {
-        $this->app->singleton('command.observer.make', function ($app) {
-            return new ObserverMakeCommand($app['files']);
+        $this->app->singleton('command.optimize', function ($app) {
+            return new OptimizeCommand($app['composer']);
         });
     }
 
@@ -622,20 +594,8 @@ class ArtisanServiceProvider extends ServiceProvider
      */
     protected function registerPackageDiscoverCommand()
     {
-        $this->app->singleton('command.package.discover', function () {
+        $this->app->singleton('command.package.discover', function ($app) {
             return new PackageDiscoverCommand;
-        });
-    }
-
-    /**
-     * Register the command.
-     *
-     * @return void
-     */
-    protected function registerPolicyMakeCommand()
-    {
-        $this->app->singleton('command.policy.make', function ($app) {
-            return new PolicyMakeCommand($app['files']);
         });
     }
 
@@ -964,10 +924,10 @@ class ArtisanServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerViewCacheCommand()
+    protected function registerViewClearCommand()
     {
-        $this->app->singleton('command.view.cache', function () {
-            return new ViewCacheCommand;
+        $this->app->singleton('command.view.clear', function ($app) {
+            return new ViewClearCommand($app['files']);
         });
     }
 
@@ -976,10 +936,22 @@ class ArtisanServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerViewClearCommand()
+    protected function registerPolicyMakeCommand()
     {
-        $this->app->singleton('command.view.clear', function ($app) {
-            return new ViewClearCommand($app['files']);
+        $this->app->singleton('command.policy.make', function ($app) {
+            return new PolicyMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerNotificationTableCommand()
+    {
+        $this->app->singleton('command.notification.table', function ($app) {
+            return new NotificationTableCommand($app['files'], $app['composer']);
         });
     }
 

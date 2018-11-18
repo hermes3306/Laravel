@@ -3,7 +3,6 @@
 namespace Illuminate\Database\Eloquent\Relations;
 
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -75,13 +74,6 @@ class BelongsToMany extends Relation
      * @var array
      */
     protected $pivotWhereIns = [];
-
-    /**
-     * The default values for the pivot columns.
-     *
-     * @var array
-     */
-    protected $pivotValues = [];
 
     /**
      * Indicates if timestamps are available on the pivot table.
@@ -275,16 +267,6 @@ class BelongsToMany extends Relation
     }
 
     /**
-     * Get the class being used for pivot models.
-     *
-     * @return string
-     */
-    public function getPivotClass()
-    {
-        return $this->using ?? Pivot::class;
-    }
-
-    /**
      * Specify the custom pivot model to use for the relationship.
      *
      * @param  string  $class
@@ -353,34 +335,6 @@ class BelongsToMany extends Relation
     public function orWherePivot($column, $operator = null, $value = null)
     {
         return $this->wherePivot($column, $operator, $value, 'or');
-    }
-
-    /**
-     * Set a where clause for a pivot table column.
-     *
-     * In addition, new pivot records will receive this value.
-     *
-     * @param  string  $column
-     * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function withPivotValue($column, $value = null)
-    {
-        if (is_array($column)) {
-            foreach ($column as $name => $value) {
-                $this->withPivotValue($name, $value);
-            }
-
-            return $this;
-        }
-
-        if (is_null($value)) {
-            throw new InvalidArgumentException('The provided value may not be null.');
-        }
-
-        $this->pivotValues[] = compact('column', 'value');
-
-        return $this->wherePivot($column, '=', $value);
     }
 
     /**
@@ -507,7 +461,7 @@ class BelongsToMany extends Relation
         $result = $this->find($id, $columns);
 
         if (is_array($id)) {
-            if (count($result) === count(array_unique($id))) {
+            if (count($result) == count(array_unique($id))) {
                 return $result;
             }
         } elseif (! is_null($result)) {
@@ -796,7 +750,7 @@ class BelongsToMany extends Relation
     {
         $model->save(['touch' => false]);
 
-        $this->attach($model, $pivotAttributes, $touch);
+        $this->attach($model->getKey(), $pivotAttributes, $touch);
 
         return $model;
     }
@@ -836,7 +790,7 @@ class BelongsToMany extends Relation
         // accomplish this which will insert the record and any more attributes.
         $instance->save(['touch' => false]);
 
-        $this->attach($instance, $joining, $touch);
+        $this->attach($instance->getKey(), $joining, $touch);
 
         return $instance;
     }

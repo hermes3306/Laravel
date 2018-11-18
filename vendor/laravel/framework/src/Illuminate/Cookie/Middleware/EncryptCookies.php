@@ -26,7 +26,7 @@ class EncryptCookies
     protected $except = [];
 
     /**
-     * Indicates if cookies should be serialized.
+     * Indicates if the cookies should be serialized.
      *
      * @var bool
      */
@@ -46,12 +46,12 @@ class EncryptCookies
     /**
      * Disable encryption for the given cookie name(s).
      *
-     * @param  string|array  $name
+     * @param  string|array  $cookieName
      * @return void
      */
-    public function disableFor($name)
+    public function disableFor($cookieName)
     {
-        $this->except = array_merge($this->except, (array) $name);
+        $this->except = array_merge($this->except, (array) $cookieName);
     }
 
     /**
@@ -59,7 +59,7 @@ class EncryptCookies
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return mixed
      */
     public function handle($request, Closure $next)
     {
@@ -74,13 +74,13 @@ class EncryptCookies
      */
     protected function decrypt(Request $request)
     {
-        foreach ($request->cookies as $key => $cookie) {
+        foreach ($request->cookies as $key => $c) {
             if ($this->isDisabled($key)) {
                 continue;
             }
 
             try {
-                $request->cookies->set($key, $this->decryptCookie($key, $cookie));
+                $request->cookies->set($key, $this->decryptCookie($key, $c));
             } catch (DecryptException $e) {
                 $request->cookies->set($key, null);
             }
@@ -146,16 +146,16 @@ class EncryptCookies
     /**
      * Duplicate a cookie with a new value.
      *
-     * @param  \Symfony\Component\HttpFoundation\Cookie  $cookie
+     * @param  \Symfony\Component\HttpFoundation\Cookie  $c
      * @param  mixed  $value
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
-    protected function duplicate(Cookie $cookie, $value)
+    protected function duplicate(Cookie $c, $value)
     {
         return new Cookie(
-            $cookie->getName(), $value, $cookie->getExpiresTime(),
-            $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(),
-            $cookie->isHttpOnly(), $cookie->isRaw(), $cookie->getSameSite()
+            $c->getName(), $value, $c->getExpiresTime(), $c->getPath(),
+            $c->getDomain(), $c->isSecure(), $c->isHttpOnly(), $c->isRaw(),
+            $c->getSameSite()
         );
     }
 

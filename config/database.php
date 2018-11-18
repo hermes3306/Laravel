@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' 		=> env('DB_CONNECTION', 'mysql'),
+	'targetdb'	  	=> 'mysql',
 
     /*
     |--------------------------------------------------------------------------
@@ -35,42 +36,31 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => '/home/pi/my.sqlite',
             'prefix' => '',
         ],
 
-
-        'altibase' => [
-            'driver' => 'altibase',
-			'Server' => '127.0.0.1',
-			'Port'	=> '20600',
-            'database' => 'mydb',
-			'username' => 'sys',
-			'password' => 'manager',
-        ],
-
         'mysql' => [
-            'driver' => 	'mysql',
-            'host' =>   	'127.0.0.1',
-            'port' =>   	'3306',
-            'database' => 	'laravel',
-            'username' => 	'laravel',
-            'password' => 	'laravel',
-            'unix_socket' =>  	'',
-            'charset' => 	'utf8mb4',
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', 'laravel'),
+            'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
         ],
 
-        'pgsql' => [
+        'postgres' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => 'pg', 
+            'username' => 'pg', 
+            'password' => 'pg',
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',

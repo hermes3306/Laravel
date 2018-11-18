@@ -1,33 +1,43 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 Use Illuminate\Http\Request;
-
+Use Route;
 
 class SMController extends Controller
 {
-	public function dash()
-	{
+
+	public function dashv($id) {
 		$sql1 = "select distinct hhmmss from sm  where yymmdd like date_format(now(),'%y%m%d') order by hhmmss";
-
 		$sql2 = "select val as temp from sm  where type like 'Temperature' and  yymmdd like date_format(now(),'%y%m%d') order by hhmmss";
-
 		$sql3 = "select val as humi from sm  where type like 'Humidity' and  yymmdd like date_format(now(),'%y%m%d') order by hhmmss";
-
 		$sql4 = "select val as gas from sm  where type like 'Gas' and  yymmdd like date_format(now(),'%y%m%d') order by hhmmss";
-
 		$sql5 = "select val as ele from sm  where type like 'Electricity' and  yymmdd like date_format(now(),'%y%m%d') order by hhmmss";
 
-		$hhmmsss = DB::connection('mysql')->select($sql1);
+		if($id == '2') {
+		$sql1 = "select concat(yymmdd,hhmmss) as hhmmss from sm  order by hhmmss";
+		$sql2 = "select val as temp from sm  order by hhmmss";
+		$sql3 = "select val as humi from sm  order by hhmmss";
+		$sql4 = "select val as gas from sm  order by hhmmss";
+		$sql5 = "select val as ele from sm   order by hhmmss";
+		} 
 
+		if($id == '3') {
+		$sql1 = "select concat(yymmdd,hhmmss) as hhmmss from sm where hhmmss like '___0__'   order by hhmmss";
+ 		$sql2 = "select val as temp from sm where hhmmss like '___0__'   order by hhmmss";
+		$sql3 = "select val as humi from sm  where hhmmss like '___0__'   order by hhmmss";
+		$sql4 = "select val as gas from sm  where hhmmss like '___0__'   order by hhmmss";
+		$sql5 = "select val as ele from sm  where hhmmss like '___0__'   order by hhmmss";
+		}
 
-		$temps = DB::connection('mysql')->select($sql2);
-		$humiditys = DB::connection('mysql')->select($sql3);
-		$gass = DB::connection('mysql')->select($sql4);
-		$elecs = DB::connection('mysql')->select($sql5);
+        $hhmmsss = DB::connection('mysql')->select($sql1);
+        $temps = DB::connection('mysql')->select($sql2);
+        $humiditys = DB::connection('mysql')->select($sql3);
+        $gass = DB::connection('mysql')->select($sql4);
+        $elecs = DB::connection('mysql')->select($sql5);
+
 
 		return view('SM.dash', ['hhmmsss' => $hhmmsss,
 								'temps' => $temps,
@@ -36,18 +46,21 @@ class SMController extends Controller
 								'elecs' => $elecs]);
 	}
 
-
     public function show()
     {
-        $SM = DB::connection('mysql')->select('select yymmdd, type, max(val) max, min(val) min, avg(val) avg from sm group by yymmdd, type');
+        $SM = DB::connection('mysql')->select("select yymmdd, type, max(val) max, min(val) min, avg(val) avg from sm group by yymmdd, type");
+		$yymmdds = DB::connection('mysql')->select("select distinct yymmdd from sm order by yymmdd");
+		$temps = DB::connection('mysql')->select("select avg(val) as val from sm where type like 'Temperature' group by yymmdd");
+		$humiditys = DB::connection('mysql')->select("select avg(val) as val from sm where type like 'Humidity' group by yymmdd");
+		$gass = DB::connection('mysql')->select("select avg(val) as val from sm where type like 'Gas' group by yymmdd");
+		$electricitys = DB::connection('mysql')->select("select avg(val) as val from sm where type like 'Electricity' group by yymmdd");
 
-        return view('SM.show', ['SM' => $SM]);
+        return view('SM.show', ['SM' => $SM, 'yymmdds'=> $yymmdds, 'temps' => $temps, 'humiditys' => $humiditys, 'gass' => $gass, 'electricitys'=>$electricitys]);
     }
 
 	public function showall() 
 	{
         $SM = DB::connection('mysql')->select('select yymmdd, hhmmss, type, val from sm order by yymmdd, hhmmss');
-
         return view('SM.showall', ['SM' => $SM]);
 	}
 

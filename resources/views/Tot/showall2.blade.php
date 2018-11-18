@@ -102,13 +102,6 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
- 		scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
 	}
 });
 

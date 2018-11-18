@@ -1,4 +1,3 @@
-
 {!! Form::open(['route' => 'contact.store']) !!}
 
 <div class="form-group">
